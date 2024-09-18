@@ -1,0 +1,10 @@
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\bin\Debug\7th Continent Saver.exe.config
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\bin\Debug\7th Continent Saver.exe
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\bin\Debug\7th Continent Saver.pdb
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\7th Continent Saver.csproj.AssemblyReference.cache
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\_7th_Continent_Saver.frmSevenSaver.resources
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\_7th_Continent_Saver.Properties.Resources.resources
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\7th Continent Saver.csproj.GenerateResource.cache
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\7th Continent Saver.csproj.CoreCompileInputs.cache
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\7th Continent Saver.exe
+C:\Users\asus\Desktop\7th Continent\7th Continent Saver\obj\Debug\7th Continent Saver.pdb
