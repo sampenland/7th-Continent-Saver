@@ -132,35 +132,44 @@ namespace _7th_Continent_Saver
 
             int line = 1;
             string current = readin[line];
+            int characterCount = 0;
             while(!current.Contains("TERRAIN"))
             {
-                int characterCount = 0;
+                int endI = 0;
+
                 if (current == "CHARACTER")
                 {
                     characterCount++;
                     line++;
                     current = readin[line];
                     Character character = new Character(current);
-                    line++;
-                    current = readin[line];
                     character.CharacterCard.number = current;
-                    for(int i = line + 1;  readin[i] == "CHARACTER END"; i++)
+                    for(int i = line + 1;  ; i++)
                     {
-                        current = readin[line];
-                        if (current.Contains("INVENTORY")) character.Inventory.Add(new ItemCard(current.Replace("INVENTORY ", "").Substring(0, current.Length - 1), int.Parse(current.Substring(current.LastIndexOf(" ")))));
+                        current = readin[i];
+                        endI = i;
+                        if (current.Contains("INVENTORY"))
+                        {
+                            string num = current.Replace("INVENTORY ", "");
+                            num = num.Substring(0, num.LastIndexOf(" "));
+                            string dur = current.Substring(current.LastIndexOf(" "));
+                            character.Inventory.Add(new ItemCard(num, int.Parse(dur)));
+                        }
                         if (current.Contains("STATUS")) character.Status.Add(new Card(current.Replace("STATUS ", "")));
                         if (current.Contains("HANDBLUE")) character.HandBlue.Add(new Card(current.Replace("HANDBLUE ", "")));
                         if (current.Contains("HANDGREEN")) character.HandGreen.Add(new Card(current.Replace("HANDGREEN ", "")));
+                        if (current == "CHARACTER END") break;
                     }
 
                     saveFile.Characters[characterCount - 1] = character;
                 }
 
+                line = endI; 
                 line++;
                 current = readin[line];
             }
 
-            if (current == "TERRAIN") saveFile.TerrainCard = new Card(current);
+            if (current.Contains("TERRAIN")) saveFile.TerrainCard = new Card(current.Replace("TERRAIN ", ""));
 
             line++;
             current = readin[line];
@@ -169,14 +178,22 @@ namespace _7th_Continent_Saver
             {
 
                 if (current.Contains("BANISHED")) saveFile.Banished.Add(new Card(current.Replace("BANISHED ", "")));
-                if (current.Contains("DISCARD")) saveFile.Banished.Add(new Card(current.Replace("DISCARD ", "")));
-                if (current.Contains("ACTION")) saveFile.Banished.Add(new Card(current.Replace("ACTION ", "")));
-                if (current.Contains("SACHELJOURNAL")) saveFile.Banished.Add(new Card(current.Replace("SACHELJOURNAL ", "")));
+                if (current.Contains("PAST")) saveFile.Past.Add(new Card(current.Replace("PAST ", "")));
+                if (current.Contains("DISCARD")) saveFile.DiscardDeck.Add(new Card(current.Replace("DISCARD ", "")));
+                if (current.Contains("ACTION")) saveFile.ActionDeck.Add(new Card(current.Replace("ACTION ", "")));
+                if (current.Contains("SATCHELJOURNAL")) saveFile.SatchelJournal.Add(new Card(current.Replace("SATCHELJOURNAL ", "")));
 
                 line++;
                 current = readin[line];
             }
 
+            refreshAll();
+
+        }
+
+        private void refreshAll()
+        {
+            lbTerrainCard.Text = saveFile.TerrainCard.number;
             refreshActionDeck();
             refreshDiscardDeck();
             refreshBanished();
@@ -184,7 +201,6 @@ namespace _7th_Continent_Saver
             refreshSachel();
 
             refreshCharactere();
-
         }
 
         private void save(string path)
@@ -225,6 +241,12 @@ namespace _7th_Continent_Saver
             foreach (Card card in saveFile.Banished)
             {
                 savetext += "BANISHED " + card.number + Environment.NewLine;
+            }
+            savetext += Environment.NewLine;
+            
+            foreach (Card card in saveFile.Past)
+            {
+                savetext += "PAST " + card.number + Environment.NewLine;
             }
             savetext += Environment.NewLine;
 
@@ -298,6 +320,7 @@ namespace _7th_Continent_Saver
             {
                 lstAction.Items.Add(card.number);
             }
+            lbActionCount.Text = saveFile.ActionDeck.Count.ToString();
         }
         private void refreshSachel()
         {
@@ -315,6 +338,7 @@ namespace _7th_Continent_Saver
             {
                 listDiscard.Items.Add(card.number);
             }
+            lbDiscardCount.Text = saveFile.DiscardDeck.Count.ToString();
         }
 
         private void refreshBanished()
@@ -833,6 +857,12 @@ namespace _7th_Continent_Saver
             }
 
             refreshStatus();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            saveFile = new Save("");
+            refreshAll();
         }
     }
 }
